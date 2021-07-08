@@ -1,6 +1,5 @@
 % Obtain object array representing identified unit item(s) from an Allen Brain Observatory dataset
 %
-% NOTE: This creator function is currently non-functional. It is expected to be restored in an upcoming release. 
 % NOTE: Most known analysis workflows can be carried out using session item information and objects (and subordinate linked objects)
 % 
 % Supports the Visual Coding 2P [1] dataset from the Allen Brain Observatory [2]. 

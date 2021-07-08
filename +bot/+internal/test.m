@@ -232,7 +232,7 @@ classdef test < matlab.unittest.TestCase
       end
 
       function test_ephys_units(testCase)
-         %% Test obtaining EPhys objects
+         %% Test obtaining EPhys units objects
          % - Get the EPhys manifest
          bom = bot.internal.manifest.instance('ephys');
 
@@ -240,6 +240,17 @@ classdef test < matlab.unittest.TestCase
          u = bot.unit(bom.ephys_units{1, 'id'});
          u = bot.unit(bom.ephys_units(1, :));
          u = bot.unit(bom.ephys_units{[1, 2], 'id'});
+      end
+      
+      function test_ophys_experiments(testcase)
+         %% Test obtaining OPhys experiments
+         % - Get the OPhys manifest
+         bom = bot.internal.manifest.instance('ophys');
+         
+         % - Get experiments, by ID and by table
+         e = bot.experiment(bom.ophys_experiments{1, 'id'});
+         e = bot.experiment(bom.ophys_experiments(1, :));
+         e = bot.experiment(bom.ophys_experiments{[1, 2], 'id'});
       end
 
       function testLFPCSDExtraction(testCase)

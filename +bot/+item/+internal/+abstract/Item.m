@@ -45,7 +45,7 @@ classdef Item < handle & matlab.mixin.CustomDisplay
             % Handle case of ID array
             if ~istable(itemIDSpec) && numel(itemIDSpec) > 1
                 for idx = numel(itemIDSpec):-1:1
-                    obj(itemIDSpec) = bot.item.Item(itemIDSpec(idx));
+                   obj(idx) = bot.(lower(string(obj(1).ITEM_TYPE)))(itemIDSpec(idx));
                 end
                 return;
             end

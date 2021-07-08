@@ -45,7 +45,7 @@ classdef ophysmanifest < handle
     
     properties (SetAccess = private, Dependent = true)
         ophys_sessions;                   % Table of all OPhys experimental sessions
-        ophys_containers;                 % Table of all OPhys experimental containers
+        ophys_experiments;                % Table of all OPhys experiments
     end
     
     %% Constructor
@@ -99,11 +99,11 @@ classdef ophysmanifest < handle
             ophys_sessions = bot.internal.manifest.applyUserDisplayLogic(ophys_manifests.ophys_session_manifest); 
         end
         
-        function ophys_containers = get.ophys_containers(oManifest)
+        function ophys_experiments = get.ophys_experiments(oManifest)
             ophys_manifests = oManifest.api_access.fetch_cached_ophys_manifests();
             
             % Apply standardized table display logic
-            ophys_containers = bot.internal.manifest.applyUserDisplayLogic(ophys_manifests.ophys_container_manifest); 
+            ophys_experiments = bot.internal.manifest.applyUserDisplayLogic(ophys_manifests.ophys_experiment_manifest); 
         end
     end
     
@@ -142,7 +142,7 @@ classdef ophysmanifest < handle
             %
             % Usage: [ophys_manifests] = fetch_ophys_manifests_info_from_api(return_table)
             %
-            % Download `container_manifest`, `session_manifest`,
+            % Download `experiment_container_manifest`, `session_manifest`,
             % `cell_id_mapping` as MATLAB tables. Returns the tables as fields
             % of a structure. Converts various columns to appropriate formats,
             % including categorical arrays.
@@ -152,16 +152,16 @@ classdef ophysmanifest < handle
             % - Specify URLs for download
             cell_id_mapping_url = 'http://api.brain-map.org/api/v2/well_known_file_download/590985414';
             
-            %% - Fetch OPhys container manifest
-            ophys_container_manifest = manifest.cache.CachedAPICall('criteria=model::ExperimentContainer', 'rma::include,ophys_experiments,isi_experiment,specimen(donor(conditions,age,transgenic_lines)),targeted_structure');
+            %% - Fetch OPhys experiment container manifest
+            ophys_experiment_manifest = manifest.cache.CachedAPICall('criteria=model::ExperimentContainer', 'rma::include,ophys_experiments,isi_experiment,specimen(donor(conditions,age,transgenic_lines)),targeted_structure');
             
             % - Convert varibales to useful types
-            ophys_container_manifest.id = uint32(ophys_container_manifest.id);
-            ophys_container_manifest.failed_facet = uint32(ophys_container_manifest.failed_facet);
-            ophys_container_manifest.isi_experiment_id = uint32(ophys_container_manifest.isi_experiment_id);
-            ophys_container_manifest.specimen_id = uint32(ophys_container_manifest.specimen_id);
+            ophys_experiment_manifest.id = uint32(ophys_experiment_manifest.id);
+            ophys_experiment_manifest.failed_facet = uint32(ophys_experiment_manifest.failed_facet);
+            ophys_experiment_manifest.isi_experiment_id = uint32(ophys_experiment_manifest.isi_experiment_id);
+            ophys_experiment_manifest.specimen_id = uint32(ophys_experiment_manifest.specimen_id);
             
-            ophys_manifests.ophys_container_manifest = ophys_container_manifest;
+            ophys_manifests.ophys_experiment_manifest = ophys_experiment_manifest;
             
             %% - Fetch OPhys session manifest
             ophys_session_manifest = manifest.cache.CachedAPICall('criteria=model::OphysExperiment', 'rma::include,experiment_container,well_known_files(well_known_file_type),targeted_structure,specimen(donor(age,transgenic_lines))');

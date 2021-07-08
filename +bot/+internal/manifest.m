@@ -173,7 +173,7 @@ classdef manifest < handle
             for var = nameVars
                 if iscategorical(tbl.(var))
                     shortNameVars = [shortNameVars var]; %#ok<AGROW>
-                elseif isstring(tbl.(var)) 
+                elseif isstring(tbl.(var)) || iscellstr(tbl.(var))
                     if mean(strlength(tbl.(var))) > 10
                         longNameVars = [longNameVars var]; %#ok<AGROW>
                     else
